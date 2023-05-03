@@ -2,9 +2,7 @@
 """Compress web static package
 """
 import os.path
-from fabric.api import env
-from fabric.api import put
-from fabric.api import run
+from fabric.api import put, run, env
 
 
 env.hosts = ['54.237.78.38', '34.207.64.44']

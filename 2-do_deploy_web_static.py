@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 """Compress web static package
 """
-from fabric.api import *
-from datetime import datetime
-from os import path
+import os.path
+from fabric.api import env
+from fabric.api import put
+from fabric.api import run
 
 
 env.hosts = ['54.237.78.38', '34.207.64.44']

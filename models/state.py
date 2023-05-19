@@ -1,35 +1,31 @@
 #!/usr/bin/python3
-"""This is the state class"""
-import os
+"""State Module for HBNB project"""
 import models
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer
+import sqlalchemy
+from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from os import getenv
 
 
 class State(BaseModel, Base):
-    """This is the class for State
-    Attributes:
-        name: input name
-        cities = relationship between state and city tables.
-    """
+    """ State class """
 
     __tablename__ = 'states'
-    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        name = Column(String(128), nullable=False)
+    name = Column(String(128), nullable=False)
+
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
         cities = relationship(
-            'City', back_populates='state',
-            cascade='all, delete, delete-orphan')
+            "City", cascade="all, delete-orphan", backref="state")
 
     else:
-        name = ""
-
         @property
         def cities(self):
-            """returns list of Cities and some relationships"""
-            cities_instances = []
-            cities_dict = models.storage.all(models.City)
-            for key, value in cities_dict.items():
-                if self.id == value.state_id:
-                    cities_instances.append(value)
-            return cities_instances
+            """returns the list of City instances with state_id
+            equals to the current State.id"""
+            instance_list = []
+            for key, obj in models.storage.all().items():
+                if obj.__class__.__name__ == 'City':
+                    if obj.state_id == self.id:
+                        instance_list.append(obj)
+            return instance_list

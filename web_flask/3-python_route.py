@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""
+"add a fucntion that redirects and has defualt value for varibale"""
 from flask import Flask
 
 app = Flask(__name__)

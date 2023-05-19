@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"add a fucntion that redirects and has defualt value for varibale"""
+"""Add a function that shows var only if it is integer"""
 from flask import Flask
 
 app = Flask(__name__)
@@ -28,6 +28,11 @@ def python(text):
     # Replace underscores with spaces
     text = text.replace('_', ' ')
     return 'Python {}'.format(text)
+
+
+@app.route('/number/<int:n>', strict_slashes=False)
+def number(n):
+    return '{} is a number'.format(n)
 
 
 if __name__ == '__main__':

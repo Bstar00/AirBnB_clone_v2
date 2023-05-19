@@ -1,45 +1,30 @@
 #!/usr/bin/python3
-from flask import Flask, escape
+"""A Script to start a Flask web application with a three view functions """
+
+from flask import Flask
 
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 
-@app.route('/', methods=['GET'], strict_slashes=False)
-def hello_hbnb():
-    """
-    Route that displays 'Hello HBNB!'
-
-    Returns:
-        str: The greeting message.
-    """
+@app.route('/')
+def hello_world():
+    """ Returns Hello HBNB """
     return 'Hello HBNB!'
 
 
-@app.route('/hbnb', methods=['GET'], strict_slashes=False)
-def hbnb():
-    """
-    Route that displays 'HBNB'
-
-    Returns:
-        str: The message.
-    """
+@app.route('/hbnb')
+def hello():
+    """ Returns HBNB """
     return 'HBNB'
 
 
-@app.route('/c/<text>', methods=['GET'], strict_slashes=False)
-def display_text(text):
-    """
-    Route that displays 'C ' followed by the value of the text variable.
-
-    Args:
-        text (str): The text provided in the route.
-
-    Returns:
-        str: The formatted message.
-    """
-    formatted_text = escape(text.replace('_', ' '))
-    return f'C {formatted_text}'
+@app.route('/c/<text>')
+def c_text(text):
+    """ replace text with a variable. """
+    text = text.replace('_', ' ')
+    return 'C {}'.format(text)
 
 
 if __name__ == '__main__':

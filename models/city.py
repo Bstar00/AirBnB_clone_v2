@@ -1,8 +1,8 @@
 #!/usr/bin/python3
-"""This is the city class"""
-import models
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, ForeignKey
+"""This is  city class"""
+
+import os
+from models.base_model import BaseModel, Base, Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 
@@ -12,8 +12,14 @@ class City(BaseModel, Base):
         state_id: The state id
         name: input name
     """
-    # initialize class for file/db storage type
+
     __tablename__ = 'cities'
-    name = Column(String(128), nullable=False)
-    state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
-    places = relationship('Place', cascade='all, delete', backref='cities')
+
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        name = Column(String(128), nullable=False)
+        state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
+        state = relationship(
+            'State', back_populates='cities')
+    else:
+        name = ""
+        state_id = ""

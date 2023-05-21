@@ -6,6 +6,7 @@ import sqlalchemy
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from os import getenv
+from models import storage
 
 
 class State(BaseModel, Base):
@@ -29,3 +30,10 @@ class State(BaseModel, Base):
                     if obj.state_id == self.id:
                         instance_list.append(obj)
             return instance_list
+        if storage.get('DBStorage'):
+            return [city for city in storage.all(
+                City).values() if city.state_id == self.id]
+        else:
+            return [
+                city for city in storage.all().values() if isinstance(
+                    city, City) and city.state_id == self.id]
